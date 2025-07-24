@@ -1,10 +1,9 @@
-import mysql.connector
+import psycopg2
 
 def get_connection():
- return mysql.connector.connect(
-
-  host="localhost",
-  user="root",
-  password="",
-  database="unicare",
- )
+    return psycopg2.connect(
+        host="localhost",
+        user="tu_usuario",
+        password="tu_contraseña",
+        database="unicare"
+    )

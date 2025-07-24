@@ -2,39 +2,37 @@ from flask import json, request, jsonify
 from database.db import get_connection
 
 def formData(username):
-    conn=get_connection()
-    cursor=conn.cursor()
+    conn = get_connection()
+    cursor = conn.cursor()
 
-    cursor.execute("SELECT nombre_completo,codEstudiante,facultad_id FROM users WHERE username = %s", (username,))
+    cursor.execute("SELECT nombre_completo, codEstudiante, facultad_id FROM users WHERE username = %s", (username,))
     user = cursor.fetchone()
 
     if not user:
         cursor.close()
         conn.close()
-        return jsonify(success=False,message="Informacion no encontrada"),404
-    
-    nombre_completo=user[0]
-    codEstudiante=user[1]
-    facultad_id=user[2]
+        return jsonify(success=False, message="Información no encontrada"), 404
+
+    nombre_completo = user[0]
+    codEstudiante = user[1]
+    facultad_id = user[2]
 
     cursor.execute("SELECT nombre_facultad FROM facultades WHERE id = %s", (facultad_id,))
-
-    result=cursor.fetchone()
+    result = cursor.fetchone()
 
     cursor.close()
     conn.close()
 
     if result:
         responses = {
-          'nom_apell': nombre_completo,
-          'codigo': codEstudiante,
-          'facultad': result[0],
-          }
-        
+            'nom_apell': nombre_completo,
+            'codigo': codEstudiante,
+            'facultad': result[0],
+        }
         return jsonify(success=True, responses=responses)
-
     else:
-        return jsonify(success=False,message="Datos del estudiantes no encontrados")
+        return jsonify(success=False, message="Datos del estudiante no encontrados")
+
 
 def actualizar_datos(username):
     data = request.json

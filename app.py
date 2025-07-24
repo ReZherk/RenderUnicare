@@ -8,7 +8,7 @@ from routes.evaluation import evaluation, get_evaluation
 from routes.user import formData, actualizar_datos
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["http://localhost:5173", "https://unicare-frontend.onrender.com"])
 
 
 app.add_url_rule('/api/login', 'login', login, methods=['POST'])
